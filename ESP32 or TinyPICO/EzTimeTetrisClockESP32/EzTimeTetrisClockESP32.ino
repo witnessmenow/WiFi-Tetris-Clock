@@ -233,6 +233,7 @@ void setup() {
   }
   finishedAnimating = false;
   displayIntro = false;
+  tetris.scale = 2;
 }
 
 void setMatrixTime() {
