@@ -108,7 +108,7 @@ void animationHandler()
   if (!finishedAnimating) {
     display.clearDisplay();
     if (displayIntro) {
-      finishedAnimating = tetris.drawText(10, 21);
+      finishedAnimating = tetris.drawText(1, 21);
     } else {
       if (twelveHourFormat) {
         // Place holders for checking are any of the tetris objects
@@ -215,6 +215,7 @@ void setup() {
   Serial.print(F("Time in your set timezone:         "));
   Serial.println(myTZ.dateTime());
 
+  display.clearDisplay();
   // "Powered By"
   drawIntro(6, 12);
   delay(2000);
@@ -231,6 +232,7 @@ void setup() {
   {
     delay(10); //waiting for intro to finish
   }
+  delay(2000);
   finishedAnimating = false;
   displayIntro = false;
   tetris.scale = 2;
