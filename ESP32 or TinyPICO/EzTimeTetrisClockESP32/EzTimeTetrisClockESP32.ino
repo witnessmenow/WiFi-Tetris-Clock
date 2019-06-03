@@ -22,7 +22,12 @@
 
 #include <PxMatrix.h>
 // The library for controlling the LED Matrix
-// Can be installed from the library manager
+// At time of writing this, if you are using a TinyPICO
+// You will need to install my version of the library
+// https://github.com/witnessmenow/PxMatrix
+//
+// If you are using a regular ESP32 you may be able to use
+// the library manager version
 // https://github.com/2dom/PxMatrix
 
 // Adafruit GFX library is a dependancy for the PxMatrix Library
@@ -41,7 +46,7 @@
 // ---- Stuff to configure ----
 
 // Initialize Wifi connection to the router
-char ssid[] = "ssid";     // your network SSID (name)
+char ssid[] = "SSID";     // your network SSID (name)
 char password[] = "password"; // your network key
 
 // Set a timezone using the following list
@@ -57,6 +62,11 @@ bool twelveHourFormat = true;
 // When true, all digits will be replaced every minute.
 bool forceRefresh = true;
 // -----------------------------
+
+// Enabling this is meant to have a performance 
+// improvement but its worse for me.
+// https://github.com/2dom/PxMatrix/pull/103
+//#define double_buffer
 
 // ----- Wiring -------
 #define P_LAT 22
@@ -106,7 +116,12 @@ void animationHandler()
   // Not clearing the display and redrawing it when you
   // dont need to improves how the refresh rate appears
   if (!finishedAnimating) {
+#ifdef double_buffer
+    display.fillScreen(tetris.tetrisBLACK);
+#else
     display.clearDisplay();
+#endif
+    //display.fillScreen(tetris.tetrisBLACK);
     if (displayIntro) {
       finishedAnimating = tetris.drawText(1, 21);
     } else {
@@ -131,7 +146,9 @@ void animationHandler()
         finishedAnimating = tetris.drawNumbers(2, 26, showColon);
       }
     }
-
+#ifdef double_buffer
+    display.showBuffer();
+#endif
   }
   portEXIT_CRITICAL_ISR(&timerMux);
 }
@@ -190,8 +207,9 @@ void setup() {
   // as it will crash!
 
   // Intialise display library
-  display.begin(16);
-  display.clearDisplay();
+  display.begin(16, SPI_BUS_CLK, 27, SPI_BUS_MISO, SPI_BUS_SS); // TinyPICO
+  //display.begin(16); // Generic ESP32
+  display.flushDisplay();
 
   // Setup timer for driving display
   timer = timerBegin(0, 80, true);
@@ -199,10 +217,17 @@ void setup() {
   timerAlarmWrite(timer, 2000, true);
   timerAlarmEnable(timer);
   yield();
+#ifdef double_buffer
+  display.fillScreen(tetris.tetrisBLACK);
+#else
   display.clearDisplay();
+#endif
 
   // "connecting"
   drawConnecting(5, 10);
+#ifdef double_buffer
+  display.showBuffer();
+#endif
 
   // Setup EZ Time
   setDebug(INFO);
@@ -215,9 +240,16 @@ void setup() {
   Serial.print(F("Time in your set timezone:         "));
   Serial.println(myTZ.dateTime());
 
+#ifdef double_buffer
+  display.fillScreen(tetris.tetrisBLACK);
+#else
   display.clearDisplay();
+#endif
   // "Powered By"
   drawIntro(6, 12);
+#ifdef double_buffer
+  display.showBuffer();
+#endif
   delay(2000);
 
   // Start the Animation Timer
@@ -287,7 +319,7 @@ void handleColonAfterAnimation() {
   // It will draw the colon every time, but when the colour is black it
   // should look like its clearing it.
   uint16_t colour =  showColon ? tetris.tetrisWHITE : tetris.tetrisBLACK;
-  // The x position that you draw the tetris animation object 
+  // The x position that you draw the tetris animation object
   int x = twelveHourFormat ? -6 : 2;
   // The y position adjusted for where the blocks will fall from
   // (this could be better!)
