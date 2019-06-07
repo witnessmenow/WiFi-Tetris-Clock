@@ -26,9 +26,10 @@
 
 #include <PxMatrix.h>
 // The library for controlling the LED Matrix
-// At time of writing this, if you are using a TinyPICO
-// You will need to install my version of the library
-// https://github.com/witnessmenow/PxMatrix
+// At time of writing this my changes for the TinyPICO
+// Have been merged into the main PxMatrix library,
+// but have not been released, so you will need to install
+// from Github
 //
 // If you are using a regular ESP32 you may be able to use
 // the library manager version
@@ -41,9 +42,7 @@
 #include <TetrisMatrixDraw.h>
 // This library draws out characters using a tetris block
 // amimation
-// It *should* be available on the library manager, but
-// at time of writing this it hasn't been added by
-// arduino yet.
+// Can be installed from the library manager
 // https://github.com/toblum/TetrisAnimation
 
 #include <ezTime.h>
