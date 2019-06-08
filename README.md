@@ -3,7 +3,7 @@ A WiFi clock made of falling tetris blocks. Runs on an ESP32 with an RGB LED Mat
 
 ![img](https://thumbs.gfycat.com/RecklessSpecificKoodoo-size_restricted.gif)
 
-### Hardware
+## Hardware
 
 - RGB LED Matrix 64 x 32 P3 (The one I'm using) 
   - Amazon.co.uk* https://amzn.to/2zLeqzl
@@ -21,7 +21,7 @@ A WiFi clock made of falling tetris blocks. Runs on an ESP32 with an RGB LED Mat
 
 \* Affilate links
 
-### Wiring:
+## Wiring:
 
 Wiring is desctribed on the [PxMatrix library](https://github.com/2dom/PxMatrix) pretty well, but to try make it a little easier I have created wiring diagrams for the different types of boards.
 
