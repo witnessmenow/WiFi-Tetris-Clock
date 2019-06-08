@@ -6,18 +6,18 @@ A WiFi clock made of falling tetris blocks. Runs on an ESP32 with an RGB LED Mat
 ## Hardware
 
 - RGB LED Matrix 64 x 32 P3 (The one I'm using) 
-  - Amazon.co.uk* https://amzn.to/2zLeqzl
-  - Amazon.com*  - Sold out and equivalent has bad reviews
-  - Aliexpress* http://s.click.aliexpress.com/e/EMvjy3z
-- TinyPICO: https://www.crowdsupply.com/unexpected-maker/tinypico
-- ESP32 Mini* (The generic ESP32 board I'm working on will be based on this): http://s.click.aliexpress.com/e/cozT6Vx6 
+  - [Amazon.co.uk*](https://amzn.to/2zLeqzl)
+  - Amazon.com  - Sold out and equivalent has bad reviews
+  - [Aliexpress*](http://s.click.aliexpress.com/e/EMvjy3z)
+- [TinyPICO](https://www.crowdsupply.com/unexpected-maker/tinypico)
+- [ESP32 Mini*](http://s.click.aliexpress.com/e/cozT6Vx6) (The generic ESP32 board I'm working on will be based on this)
 - 5v 8A laptop style PSU
-  - Aliexpress* http://s.click.aliexpress.com/e/vzJ2rnE
-  - Amazon.co.uk* https://amzn.to/2JBauB2
-  - Amazon.com* https://amzn.to/2Jl93qL
-- TinyPICO Matrix Shield: https://www.tindie.com/products/brianlough/tinypico-matrix-shield/
-- D1 Mini Matrix Shield (Although not super useful for this project!): https://www.tindie.com/products/brianlough/d1-mini-matrix-shield/
-
+  - [Aliexpress*](http://s.click.aliexpress.com/e/vzJ2rnE)
+  - [Amazon.co.uk*](https://amzn.to/2JBauB2)
+  - [Amazon.com*](https://amzn.to/2Jl93qL)
+- [TinyPICO Matrix Shield](https://www.tindie.com/products/brianlough/tinypico-matrix-shield/)
+- [D1 Mini Matrix Shield](https://www.tindie.com/products/brianlough/d1-mini-matrix-shield/
+) (Although not super useful for this project!)
 
 \* Affilate links
 
