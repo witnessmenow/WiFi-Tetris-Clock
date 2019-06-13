@@ -112,7 +112,7 @@ void  animationHandler()
       tetris.scale = 1;
       finishedAnimating = tetris.drawText(10, 30);
       if(finishedAnimating) delay(2000);
-    } 
+    }
     else
     {
       tetris.scale = scale;
@@ -205,7 +205,7 @@ void setup() {
   // Setup EZ Time
   setDebug(INFO);
   if(getTime){
-    // waitForSync();
+    if(WiFi.status()==WL_CONNECTED) waitForSync();
 
     Serial.println();
     Serial.println("UTC:             " + UTC.dateTime());
