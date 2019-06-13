@@ -226,6 +226,7 @@ void setup() {
   }
 
   tetris.scale = scale;
+  setupMonochrome();
 }
 
 void setMatrixTime() {
@@ -276,6 +277,11 @@ void setMatrixTime() {
 
 void setupMonochrome(){
   // @todo setup tetris colors
+  // 
+  // you can adjust these for different block appearance, colon not supported in library atm
+  // 
+  // tetris.drawOutline   = true; // individual blocks outline
+  // tetris.outLineColour = BLACK; // outline color
 }
 
 void handleColonAfterAnimation() {
