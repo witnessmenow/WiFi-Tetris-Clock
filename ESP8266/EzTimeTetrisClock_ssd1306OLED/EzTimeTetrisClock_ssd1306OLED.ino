@@ -17,6 +17,7 @@
 
 #include <SPI.h>
 #include <Wire.h>
+#include <ESP8266WiFi.h>
 
 // ----------------------------
 // Display Libraries - each one of these will need to be installed.
@@ -44,9 +45,6 @@ bool getTime = true; // false to test without wifi
 // uint16_t xoffset = -16;
 uint16_t xoffset = -21;
 uint16_t yoffset = scale*13;
-
-// #include <Ticker.h>
-#include <ESP8266WiFi.h>
 
 #include <TetrisMatrixDraw.h>
 // This library :)
