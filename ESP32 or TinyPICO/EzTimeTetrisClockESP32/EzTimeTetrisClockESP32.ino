@@ -19,12 +19,17 @@
 // Additional Libraries - each one of these will need to be installed.
 // ----------------------------
 
+// Enabling this is meant to have a performance
+// improvement but its worse for me.
+// https://github.com/2dom/PxMatrix/pull/103
+//#define double_buffer
 
 #include <PxMatrix.h>
 // The library for controlling the LED Matrix
-// At time of writing this, if you are using a TinyPICO
-// You will need to install my version of the library
-// https://github.com/witnessmenow/PxMatrix
+// At time of writing this my changes for the TinyPICO
+// Have been merged into the main PxMatrix library,
+// but have not been released, so you will need to install
+// from Github
 //
 // If you are using a regular ESP32 you may be able to use
 // the library manager version
@@ -35,7 +40,9 @@
 // https://github.com/adafruit/Adafruit-GFX-Library
 
 #include <TetrisMatrixDraw.h>
-// This library :)
+// This library draws out characters using a tetris block
+// amimation
+// Can be installed from the library manager
 // https://github.com/toblum/TetrisAnimation
 
 #include <ezTime.h>
@@ -62,11 +69,6 @@ bool twelveHourFormat = true;
 // When true, all digits will be replaced every minute.
 bool forceRefresh = true;
 // -----------------------------
-
-// Enabling this is meant to have a performance 
-// improvement but its worse for me.
-// https://github.com/2dom/PxMatrix/pull/103
-//#define double_buffer
 
 // ----- Wiring -------
 #define P_LAT 22
@@ -111,7 +113,9 @@ void IRAM_ATTR display_updater() {
 // This method is for controlling the tetris library draw calls
 void animationHandler()
 {
+#ifndef double_buffer
   portENTER_CRITICAL_ISR(&timerMux);
+#endif
 
   // Not clearing the display and redrawing it when you
   // dont need to improves how the refresh rate appears
@@ -150,7 +154,9 @@ void animationHandler()
     display.showBuffer();
 #endif
   }
+#ifndef double_buffer
   portEXIT_CRITICAL_ISR(&timerMux);
+#endif
 }
 
 void drawIntro(int x = 0, int y = 0)
