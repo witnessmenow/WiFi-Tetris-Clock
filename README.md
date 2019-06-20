@@ -3,8 +3,15 @@ A WiFi clock made of falling tetris blocks. Runs on an ESP32 with an RGB LED Mat
 
 ![img](https://thumbs.gfycat.com/RecklessSpecificKoodoo-size_restricted.gif)
 
+## Requirements
+- [TetrisAnimation](https://github.com/toblum/TetrisAnimation)
+- [ezTime](https://github.com/ropg/ezTime)
+- [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library)
+
+
 ## Hardware
 
+### Px RGB LED Matrix
 - RGB LED Matrix 64 x 32 P3 (The one I'm using) 
   - [Amazon.co.uk*](https://amzn.to/2zLeqzl)
   - Amazon.com  - Sold out and equivalent has bad reviews
@@ -18,6 +25,17 @@ A WiFi clock made of falling tetris blocks. Runs on an ESP32 with an RGB LED Mat
 - [TinyPICO Matrix Shield](https://www.tindie.com/products/brianlough/tinypico-matrix-shield/)
 - [D1 Mini Matrix Shield](https://www.tindie.com/products/brianlough/d1-mini-matrix-shield/
 ) (Although not super useful for this project!)
+
+#### Libraries
+ - https://github.com/adafruit/Adafruit-GFX-Library
+ - https://github.com/2dom/PxMatrix
+
+
+### SSD1306 OLED
+
+#### Libraries
+ - https://github.com/adafruit/Adafruit_SSD1306
+
 
 \* Affilate links
 
