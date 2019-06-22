@@ -34,3 +34,9 @@ Wiring is desctribed on the [PxMatrix library](https://github.com/2dom/PxMatrix)
 #### D1 Mini ESP8266
 Although not working with this sketch yet
 ![img](https://i.imgur.com/bIBcAXR.png)
+
+#### Power Wiring
+
+To connect your power supply up to the panel, you can connect the display power wire directly to a DC jack screw terminal breakout or use some larger screw terminals and some perfboard
+
+![img](https://i.imgur.com/ulIn681.jpg)
