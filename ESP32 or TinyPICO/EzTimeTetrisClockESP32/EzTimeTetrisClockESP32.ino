@@ -78,6 +78,7 @@ bool forceRefresh = true;
 #define P_D 5
 #define P_E 15
 #define P_OE 26 //TinyPICO
+//#define P_OE 21 //Huzzah32
 //#define P_OE 2 // Generic ESP32
 // ---------------------
 
@@ -106,7 +107,7 @@ String lastDisplayedAmPm = "";
 // This method is needed for driving the display
 void IRAM_ATTR display_updater() {
   portENTER_CRITICAL_ISR(&timerMux);
-  display.display(70);
+  display.display(10);
   portEXIT_CRITICAL_ISR(&timerMux);
 }
 
@@ -214,7 +215,7 @@ void setup() {
 
   // Intialise display library
   display.begin(16, SPI_BUS_CLK, 27, SPI_BUS_MISO, SPI_BUS_SS); // TinyPICO
-  //display.begin(16); // Generic ESP32
+  //display.begin(16); // Generic ESP32 including Huzzah
   display.flushDisplay();
 
   // Setup timer for driving display
