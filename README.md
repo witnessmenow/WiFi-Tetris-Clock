@@ -8,7 +8,7 @@ A WiFi clock made of falling tetris blocks. Runs on an ESP32 with an RGB LED Mat
 - RGB LED Matrix 64 x 32 P3 (The one I'm using) 
   - [Amazon.co.uk*](https://amzn.to/2zLeqzl)
   - Amazon.com  - Sold out and equivalent has bad reviews
-  - [Aliexpress*](http://s.click.aliexpress.com/e/EMvjy3z)
+  - [Aliexpress*](http://s.click.aliexpress.com/e/EMvjy3z) - NOTE: I have heard off some people that this seller has changed to a type of board that is not working. [2Dom is on the case](https://github.com/2dom/PxMatrix/issues/119), but maybe buy elsewhere. I can't recomend anywhere else because this is where I bought mine from!
 - [TinyPICO](https://www.crowdsupply.com/unexpected-maker/tinypico)
 - [ESP32 Mini*](http://s.click.aliexpress.com/e/cozT6Vx6) (The generic ESP32 board I'm working on will be based on this)
 - 5v 8A laptop style PSU
