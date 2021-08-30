@@ -81,7 +81,6 @@ TetrisMatrixDraw tetris2(display); // The "M" of AM/PM
 TetrisMatrixDraw tetris3(display); // The "P" or "A" of AM/PM
 
 Timezone myTZ;
-unsigned long oneSecondLoopDue = 0;
 
 bool showColon = true;
 bool finishedAnimating = false;
@@ -278,13 +277,16 @@ void setMatrixTime() {
 
 
 void loop() {
+  static unsigned long loopTime = 0;
+
   unsigned long now = millis();
 
-  if (now > oneSecondLoopDue) {
+  if (now > loopTime) {
     // We can call this often, but it will only
     // update when it needs to
     setMatrixTime();
     showColon = !showColon;
     oneSecondLoopDue = now + 10000;
+    loopTime = now + 300;
   }
 }
