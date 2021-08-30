@@ -1,10 +1,8 @@
 /*******************************************************************
     Tetris clock that fetches its time Using the EzTimeLibrary
 
-    NOTE: THIS IS CURRENTLY CRASHING!
-
     For use with an ESP8266
- *                                                                 *
+
     Written by Brian Lough
     YouTube: https://www.youtube.com/brianlough
     Tindie: https://www.tindie.com/stores/brianlough/
@@ -281,12 +279,7 @@ void setMatrixTime() {
 
 void loop() {
   unsigned long now = millis();
-//  if(false && animateFlag){
-//    animateFlag = false;
-//    animationHandler();
-//  }
 
- // animationHandler();
   if (now > oneSecondLoopDue) {
     // We can call this often, but it will only
     // update when it needs to
