@@ -229,6 +229,8 @@ void setup() {
   finishedAnimating = false;
   displayIntro = false;
   tetris.scale = 2;
+
+  timer_ticker.detach();
 }
 
 void setMatrixTime() {
@@ -282,11 +284,11 @@ void loop() {
   unsigned long now = millis();
 
   if (now > loopTime) {
-    // We can call this often, but it will only
-    // update when it needs to
     setMatrixTime();
     showColon = !showColon;
-    oneSecondLoopDue = now + 10000;
+    animationHandler();
     loopTime = now + 300;
   }
+
+  delay(1);
 }
