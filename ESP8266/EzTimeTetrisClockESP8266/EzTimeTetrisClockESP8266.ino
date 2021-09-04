@@ -152,17 +152,25 @@ void setup() {
   Serial.begin(115200);
 
   // Attempt to connect to Wifi network:
-  Serial.print("Connecting Wifi: ");
-  Serial.println(ssid);
 
   // Set WiFi to station mode and disconnect from an AP if it was Previously
   // connected
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
+  int attempts = 0;
   while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(".");
+    if(0 == attempts % 10) {
+      Serial.println();
+      Serial.print("Connecting to Wifi '");
+      Serial.print(ssid);
+      Serial.print("' using password '");
+      Serial.print(password);
+      Serial.print("' ");
+    }
     delay(500);
+    Serial.print(".");
+    attempts++;
   }
 
   Serial.println("");
