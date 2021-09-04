@@ -67,13 +67,6 @@ Timezone myTZ;
 bool showColon = true;
 bool finishedAnimating = false;
 bool displayIntro = true;
-bool animateFlag = false;
-
-// This method is needed for driving the display
-
-void setAnimateFlag() {
-  animateFlag = true;
-}
 
 // This method is for controlling the tetris library draw calls
 void animationHandler()
