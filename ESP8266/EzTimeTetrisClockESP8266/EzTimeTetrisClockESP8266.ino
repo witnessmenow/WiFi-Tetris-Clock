@@ -134,20 +134,6 @@ void drawIntro(int x = 0, int y = 0)
   tetris.drawChar("y", x + 47, y, tetris.tetrisGREEN);
 }
 
-void drawConnecting(int x = 0, int y = 0)
-{
-  tetris.drawChar("C", x, y, tetris.tetrisCYAN);
-  tetris.drawChar("o", x + 5, y, tetris.tetrisMAGENTA);
-  tetris.drawChar("n", x + 11, y, tetris.tetrisYELLOW);
-  tetris.drawChar("n", x + 17, y, tetris.tetrisGREEN);
-  tetris.drawChar("e", x + 22, y, tetris.tetrisBLUE);
-  tetris.drawChar("c", x + 27, y, tetris.tetrisRED);
-  tetris.drawChar("t", x + 32, y, tetris.tetrisWHITE);
-  tetris.drawChar("i", x + 37, y, tetris.tetrisMAGENTA);
-  tetris.drawChar("n", x + 42, y, tetris.tetrisYELLOW);
-  tetris.drawChar("g", x + 47, y, tetris.tetrisGREEN);
-}
-
 void setup() {
   Serial.begin(115200);
 
@@ -191,7 +177,6 @@ void setup() {
   display.clearDisplay();
 
   // "connecting"
-  drawConnecting(5, 10);
 
   // Setup EZ Time
   setDebug(INFO);
