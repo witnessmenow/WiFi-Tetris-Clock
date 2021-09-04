@@ -124,6 +124,21 @@ void drawIntro(int x = 0, int y = 0)
   tetris.drawChar("y", x + 47, y, tetris.tetrisGREEN);
 }
 
+void animate()
+{
+  unsigned long now = millis();
+  if(0 == now % 300)
+  {
+   showColon = !showColon;
+   animationHandler();
+  }
+  if(0 == now % 2)
+  {
+    display.display(70);
+  }
+  yield();
+}
+
 void setup() {
   Serial.begin(115200);
 
@@ -175,9 +190,14 @@ void setup() {
 
    //"Powered By"
   drawIntro(6, 12);
-  unsigned long start_time = millis();
-  while(millis() < start_time + 2000) {
-    display.display(70);
+  unsigned long now = millis();
+  unsigned long start_time = now;
+  while(now < start_time + 2000) {
+    now = millis();
+    if(0 == now % 2)
+    {
+      display.display(70);
+    }
     yield();
   }
 
@@ -185,16 +205,8 @@ void setup() {
   tetris.setText("B. LOUGH");
 
   // Wait for the animation to finish
-  start_time = millis();
-  while (!finishedAnimating)   // waiting for intro to finish
-  {
-    unsigned int now = millis();
-    if(0 == now % 300)
-    {
-      animationHandler();    
-    }
-    display.display(70);
-    yield();
+  while (!finishedAnimating) {
+    animate();
   }
 
   finishedAnimating = false;
@@ -249,14 +261,9 @@ void setMatrixTime() {
   }
 }
 
-
 void loop() {
-  if (0 == millis() % 300) {
+  if(0 == millis() % 100) {
     setMatrixTime();
-    showColon = !showColon;
-    animationHandler();
   }
-  
-  display.display(70);
-  yield();
+  animate();
 }
