@@ -13,7 +13,6 @@
 // Standard Libraries - Already Installed if you have ESP32 set up
 // ----------------------------
 
-#include <Ticker.h>
 #include <ESP8266WiFi.h>
 
 // ----------------------------
@@ -55,9 +54,6 @@
 #define P_E 0
 // ---------------------
 
-Ticker display_ticker;
-Ticker timer_ticker;
-
 // PxMATRIX display(32,16,P_LAT, P_OE,P_A,P_B,P_C);
 // PxMATRIX display(64,32,P_LAT, P_OE,P_A,P_B,P_C,P_D);
 PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D, P_E);
@@ -77,9 +73,6 @@ String lastDisplayedTime = "";
 String lastDisplayedAmPm = "";
 
 // This method is needed for driving the display
-void display_updater() {
-  display.display(70);
-}
 
 void setAnimateFlag() {
   animateFlag = true;
@@ -170,13 +163,7 @@ void setup() {
   // Intialise display library
   display.begin(16);
   display.clearDisplay();
-
-  // Setup ticker for driving display
-  display_ticker.attach(0.002, display_updater);
-  yield();
-  display.clearDisplay();
-
-  // "connecting"
+  display.display(70);
 
   // Setup EZ Time
   setDebug(INFO);
@@ -189,27 +176,33 @@ void setup() {
   Serial.print(F("Time in your set timezone:         "));
   Serial.println(myTZ.dateTime());
 
-  display.clearDisplay();
    //"Powered By"
   drawIntro(6, 12);
-  delay(2000);
+  unsigned long start_time = millis();
+  while(millis() < start_time + 2000) {
+    display.display(70);
+    delay(2);
+  }
 
   // Start the Animation Timer
   tetris.setText("B. LOUGH");
-  timer_ticker.attach(0.1, animationHandler);
 
   // Wait for the animation to finish
-  while (!finishedAnimating)
+  start_time = millis();
+  while (!finishedAnimating)   // waiting for intro to finish
   {
-    delay(10); //waiting for intro to finish
+    unsigned int now = millis();
+    if(0 == now % 300)
+    {
+      animationHandler();    
+    }
+    display.display(70);
+    delay(2);
   }
-  delay(2000);
-  //timer_ticker.attach(0.1, setAnimateFlag);
+
   finishedAnimating = false;
   displayIntro = false;
   tetris.scale = 2;
-
-  timer_ticker.detach();
 }
 
 void setMatrixTime() {
@@ -268,6 +261,7 @@ void loop() {
     animationHandler();
     loopTime = now + 300;
   }
-
-  delay(1);
+  
+  display.display(70);
+  delay(2);
 }
