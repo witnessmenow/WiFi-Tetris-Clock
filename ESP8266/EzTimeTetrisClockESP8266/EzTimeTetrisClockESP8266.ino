@@ -66,7 +66,37 @@ Timezone myTZ;
 
 bool showColon = true;
 bool finishedAnimating = false;
-bool displayIntro = true;
+
+void animateIntro()
+{
+  finishedAnimating = tetris.drawText(1, 21);
+}
+
+void animateTwelveHour()
+{
+  // Place holders for checking are any of the tetris objects
+  // currently still animating.
+  bool tetris1Done = false;
+  bool tetris2Done = false;
+  bool tetris3Done = false;
+
+  tetris1Done = tetris.drawNumbers(-6, 26, showColon);
+  tetris2Done = tetris2.drawText(56, 25);
+
+  // Only draw the top letter once the bottom letter is finished.
+  if (tetris2Done) {
+    tetris3Done = tetris3.drawText(56, 15);
+  }
+
+  finishedAnimating = tetris1Done && tetris2Done && tetris3Done;
+}
+
+void animateTwentyFourHour()
+{
+  finishedAnimating = tetris.drawNumbers(2, 26, showColon);
+}
+
+auto activeAnimation = animateIntro;
 
 // This method is for controlling the tetris library draw calls
 void animationHandler()
@@ -75,31 +105,7 @@ void animationHandler()
   // dont need to improves how the refresh rate appears
   if (!finishedAnimating) {
     display.clearDisplay();
-    if (displayIntro) {
-      finishedAnimating = tetris.drawText(1, 21);
-    } else {
-      if (twelveHourFormat) {
-        // Place holders for checking are any of the tetris objects
-        // currently still animating.
-        bool tetris1Done = false;
-        bool tetris2Done = false;
-        bool tetris3Done = false;
-
-        tetris1Done = tetris.drawNumbers(-6, 26, showColon);
-        tetris2Done = tetris2.drawText(56, 25);
-
-        // Only draw the top letter once the bottom letter is finished.
-        if (tetris2Done) {
-          tetris3Done = tetris3.drawText(56, 15);
-        }
-
-        finishedAnimating = tetris1Done && tetris2Done && tetris3Done;
-
-      } else {
-        finishedAnimating = tetris.drawNumbers(2, 26, showColon);
-      }
-    }
-
+    activeAnimation();
   }
 }
 
@@ -203,7 +209,16 @@ void setup() {
   }
 
   finishedAnimating = false;
-  displayIntro = false;
+
+  if(twelveHourFormat)
+  {
+    activeAnimation = animateTwelveHour;
+  }
+  else
+  {
+    activeAnimation = animateTwentyFourHour;
+  }
+
   tetris.scale = 2;
 }
 
