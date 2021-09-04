@@ -162,9 +162,9 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     if(0 == attempts % 10) {
       Serial.println();
-      Serial.print("Connecting to Wifi '");
+      Serial.print(F("Connecting to Wifi '"));
       Serial.print(ssid);
-      Serial.print("' using password '");
+      Serial.print(F("' using password '"));
       Serial.print(password);
       Serial.print("' ");
     }
@@ -173,9 +173,9 @@ void setup() {
     attempts++;
   }
 
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.print("IP address: ");
+  Serial.println();
+  Serial.println(F("WiFi connected"));
+  Serial.print(F("IP address: "));
   Serial.println(WiFi.localIP());
 
   // Do not set up display before WiFi connection
