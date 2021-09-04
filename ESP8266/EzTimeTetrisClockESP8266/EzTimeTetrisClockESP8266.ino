@@ -41,23 +41,9 @@
 
 // ---- Stuff to configure ----
 
-// Initialize Wifi connection to the router
-char ssid[] = "SSID";     // your network SSID (name)
-char password[] = "password"; // your network key
+// moved into settings.h for version control reasons
+#include "settings.h"
 
-// Set a timezone using the following list
-// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-#define MYTIMEZONE "Europe/Dublin"
-
-// Sets whether the clock should be 12 hour format or not.
-bool twelveHourFormat = true;
-
-// If this is set to false, the number will only change if the value behind it changes
-// e.g. the digit representing the least significant minute will be replaced every minute,
-// but the most significant number will only be replaced every 10 minutes.
-// When true, all digits will be replaced every minute.
-bool forceRefresh = true;
-// -----------------------------
 
 // ----- Wiring -------
 #define P_LAT 16
