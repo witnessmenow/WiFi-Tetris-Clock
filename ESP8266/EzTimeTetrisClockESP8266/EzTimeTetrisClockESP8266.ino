@@ -181,7 +181,7 @@ void setup() {
   unsigned long start_time = millis();
   while(millis() < start_time + 2000) {
     display.display(70);
-    delay(2);
+    yield();
   }
 
   // Start the Animation Timer
@@ -197,7 +197,7 @@ void setup() {
       animationHandler();    
     }
     display.display(70);
-    delay(2);
+    yield();
   }
 
   finishedAnimating = false;
@@ -251,17 +251,12 @@ void setMatrixTime() {
 
 
 void loop() {
-  static unsigned long loopTime = 0;
-
-  unsigned long now = millis();
-
-  if (now > loopTime) {
+  if (0 == millis() % 300) {
     setMatrixTime();
     showColon = !showColon;
     animationHandler();
-    loopTime = now + 300;
   }
   
   display.display(70);
-  delay(2);
+  yield();
 }
