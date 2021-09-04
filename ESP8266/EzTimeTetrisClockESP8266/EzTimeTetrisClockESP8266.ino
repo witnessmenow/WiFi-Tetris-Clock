@@ -69,9 +69,6 @@ bool finishedAnimating = false;
 bool displayIntro = true;
 bool animateFlag = false;
 
-String lastDisplayedTime = "";
-String lastDisplayedAmPm = "";
-
 // This method is needed for driving the display
 
 void setAnimateFlag() {
@@ -206,8 +203,11 @@ void setup() {
 }
 
 void setMatrixTime() {
-  String timeString = "";
-  String AmPmString = "";
+  static String lastDisplayedTime;
+  static String lastDisplayedAmPm;
+
+  String timeString;
+  String AmPmString;
   if (twelveHourFormat) {
     // Get the time in format "1:15" or 11:15 (12 hour, no leading 0)
     // Check the EZTime Github page for info on
