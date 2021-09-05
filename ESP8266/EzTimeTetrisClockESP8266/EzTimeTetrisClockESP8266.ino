@@ -248,6 +248,8 @@ void setup() {
   // Wait for the animation to finish
   while (!animate()) { }
 
+  Serial.println(F("Intro done, switching to clock loop"));
+
   activeAnimation = twelveHourFormat ? animateTwelveHour : animateTwentyFourHour;
 
   tetris.scale = 2;
