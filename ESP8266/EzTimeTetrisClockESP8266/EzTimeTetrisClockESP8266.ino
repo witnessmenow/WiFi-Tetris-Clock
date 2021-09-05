@@ -98,17 +98,6 @@ void animateTwentyFourHour()
 
 auto activeAnimation = animateIntro;
 
-// This method is for controlling the tetris library draw calls
-void animationHandler()
-{
-  // Not clearing the display and redrawing it when you
-  // dont need to improves how the refresh rate appears
-  if (!finishedAnimating) {
-    display.clearDisplay();
-    activeAnimation();
-  }
-}
-
 void drawIntro(int x = 0, int y = 0)
 {
   tetris.drawChar("W", x, y, tetris.tetrisCYAN);
@@ -126,15 +115,19 @@ void drawIntro(int x = 0, int y = 0)
 void animate()
 {
   unsigned long now = millis();
-  if(0 == now % (unsigned long)300)
+
+  if(0 == now % (unsigned long)300 && !finishedAnimating)
   {
-   showColon = !showColon;
-   animationHandler();
+    showColon = !showColon;
+    display.clearDisplay();
+    activeAnimation();
   }
+
   if(0 == now % (unsigned long)2)
   {
     display.display(70);
   }
+
   yield();
 }
 
