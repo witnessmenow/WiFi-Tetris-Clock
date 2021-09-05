@@ -126,12 +126,12 @@ void drawIntro(int x = 0, int y = 0)
 void animate()
 {
   unsigned long now = millis();
-  if(0 == now % 300)
+  if(0 == now % (unsigned long)300)
   {
    showColon = !showColon;
    animationHandler();
   }
-  if(0 == now % 2)
+  if(0 == now % (unsigned long)2)
   {
     display.display(70);
   }
@@ -193,7 +193,7 @@ void setup() {
   unsigned long start_time = now;
   while(now < start_time + 2000) {
     now = millis();
-    if(0 == now % 2)
+    if(0 == now % (unsigned long)2)
     {
       display.display(70);
     }
@@ -270,7 +270,7 @@ void setMatrixTime() {
 }
 
 void loop() {
-  if(0 == millis() % 100) {
+  if(0 == millis() % (unsigned long)100) {
     setMatrixTime();
   }
   animate();
