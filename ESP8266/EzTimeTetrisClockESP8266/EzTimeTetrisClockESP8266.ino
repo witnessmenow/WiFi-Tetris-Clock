@@ -64,16 +64,16 @@ TetrisMatrixDraw tetris3(display); // The "P" or "A" of AM/PM
 
 Timezone myTZ;
 
-bool showColon = true;
-bool finishedAnimating = false;
-
-void animateIntro()
+bool animateIntro()
 {
-  finishedAnimating = tetris.drawText(1, 21);
+  return tetris.drawText(1, 21);
 }
 
-void animateTwelveHour()
+bool animateTwelveHour()
 {
+  static bool showColon = false;
+  showColon = !showColon;
+
   // Place holders for checking are any of the tetris objects
   // currently still animating.
   bool tetris1Done = false;
@@ -88,31 +88,36 @@ void animateTwelveHour()
     tetris3Done = tetris3.drawText(56, 15);
   }
 
-  finishedAnimating = tetris1Done && tetris2Done && tetris3Done;
+  return tetris1Done && tetris2Done && tetris3Done;
 }
 
-void animateTwentyFourHour()
+bool animateTwentyFourHour()
 {
-  finishedAnimating = tetris.drawNumbers(2, 26, showColon);
+  static bool showColon = false;
+  showColon = !showColon;
+
+  return tetris.drawNumbers(2, 26, showColon);
 }
 
 auto activeAnimation = animateIntro;
 
-void animate()
+bool animate()
 {
+  static bool done = false;
   unsigned long now = millis();
 
-  if(0 == now % (unsigned long)300 && !finishedAnimating)
+  if(0 == now % (unsigned long)300)
   {
-    showColon = !showColon;
     display.clearDisplay();
-    activeAnimation();
+    done = activeAnimation();
   }
 
   if(0 == now % (unsigned long)2)
   {
     display.display(70);
   }
+
+  return done;
 }
 
 void drawIntro(int x = 0, int y = 0)
@@ -194,9 +199,7 @@ void setup() {
   tetris.setText("B. LOUGH");
 
   // Wait for the animation to finish
-  while (!finishedAnimating) {
-    animate();
-  }
+  while (!animate()) { }
 
   activeAnimation = twelveHourFormat ? animateTwelveHour : animateTwentyFourHour;
 
@@ -243,10 +246,6 @@ void setMatrixTime() {
     Serial.println(timeString);
     lastDisplayedTime = timeString;
     tetris.setTime(timeString, forceRefresh);
-
-    // Must set this to false so animation knows
-    // to start again
-    finishedAnimating = false;
   }
 }
 
