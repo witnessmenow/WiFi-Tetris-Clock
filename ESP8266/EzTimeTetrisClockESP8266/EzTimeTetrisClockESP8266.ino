@@ -106,7 +106,7 @@ bool animate()
   static bool done = false;
   unsigned long now = millis();
 
-  if(0 == now % (unsigned long)300)
+  if(0 == now % (unsigned long)100)
   {
     display.clearDisplay();
     done = activeAnimation();
