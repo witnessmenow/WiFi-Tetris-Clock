@@ -64,6 +64,49 @@ TetrisMatrixDraw tetris3(display); // The "P" or "A" of AM/PM
 
 Timezone myTZ;
 
+void setMatrixTime() {
+  static String lastDisplayedTime;
+  static String lastDisplayedAmPm;
+
+  String timeString;
+  String AmPmString;
+  if (twelveHourFormat) {
+    // Get the time in format "1:15" or 11:15 (12 hour, no leading 0)
+    // Check the EZTime Github page for info on
+    // time formatting
+    timeString = myTZ.dateTime("g:i");
+
+    //If the length is only 4, pad it with
+    // a space at the beginning
+    if (timeString.length() == 4) {
+      timeString = " " + timeString;
+    }
+
+    //Get if its "AM" or "PM"
+    AmPmString = myTZ.dateTime("A");
+    if (lastDisplayedAmPm != AmPmString) {
+      Serial.println(AmPmString);
+      lastDisplayedAmPm = AmPmString;
+      // Second character is always "M"
+      // so need to parse it out
+      tetris2.setText("M", forceRefresh);
+
+      // Parse out first letter of String
+      tetris3.setText(AmPmString.substring(0, 1), forceRefresh);
+    }
+  } else {
+    // Get time in format "01:15" or "22:15"(24 hour with leading 0)
+    timeString = myTZ.dateTime("H:i");
+  }
+
+  // Only update Time if its different
+  if (lastDisplayedTime != timeString) {
+    Serial.println(timeString);
+    lastDisplayedTime = timeString;
+    tetris.setTime(timeString, forceRefresh);
+  }
+}
+
 bool animateIntro()
 {
   return tetris.drawText(1, 21);
@@ -71,6 +114,8 @@ bool animateIntro()
 
 bool animateTwelveHour()
 {
+  setMatrixTime();
+
   static bool showColon = false;
   showColon = !showColon;
 
@@ -93,6 +138,8 @@ bool animateTwelveHour()
 
 bool animateTwentyFourHour()
 {
+  setMatrixTime();
+
   static bool showColon = false;
   showColon = !showColon;
 
@@ -206,52 +253,6 @@ void setup() {
   tetris.scale = 2;
 }
 
-void setMatrixTime() {
-  static String lastDisplayedTime;
-  static String lastDisplayedAmPm;
-
-  String timeString;
-  String AmPmString;
-  if (twelveHourFormat) {
-    // Get the time in format "1:15" or 11:15 (12 hour, no leading 0)
-    // Check the EZTime Github page for info on
-    // time formatting
-    timeString = myTZ.dateTime("g:i");
-
-    //If the length is only 4, pad it with
-    // a space at the beginning
-    if (timeString.length() == 4) {
-      timeString = " " + timeString;
-    }
-
-    //Get if its "AM" or "PM"
-    AmPmString = myTZ.dateTime("A");
-    if (lastDisplayedAmPm != AmPmString) {
-      Serial.println(AmPmString);
-      lastDisplayedAmPm = AmPmString;
-      // Second character is always "M"
-      // so need to parse it out
-      tetris2.setText("M", forceRefresh);
-
-      // Parse out first letter of String
-      tetris3.setText(AmPmString.substring(0, 1), forceRefresh);
-    }
-  } else {
-    // Get time in format "01:15" or "22:15"(24 hour with leading 0)
-    timeString = myTZ.dateTime("H:i");
-  }
-
-  // Only update Time if its different
-  if (lastDisplayedTime != timeString) {
-    Serial.println(timeString);
-    lastDisplayedTime = timeString;
-    tetris.setTime(timeString, forceRefresh);
-  }
-}
-
 void loop() {
-  if(0 == millis() % (unsigned long)100) {
-    setMatrixTime();
-  }
   animate();
 }
