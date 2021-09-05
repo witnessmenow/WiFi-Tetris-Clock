@@ -246,9 +246,11 @@ void setup() {
   tetris.setText("B. LOUGH");
 
   // Wait for the animation to finish
-  while (!animate()) { }
 
-  Serial.println(F("Intro done, switching to clock loop"));
+  start_time = millis();
+  while (millis() < start_time + 20000) {
+    animate();
+  }
 
   activeAnimation = twelveHourFormat ? animateTwelveHour : animateTwentyFourHour;
 
