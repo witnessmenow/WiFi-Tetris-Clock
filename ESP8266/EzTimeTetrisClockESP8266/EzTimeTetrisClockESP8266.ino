@@ -107,9 +107,25 @@ void setMatrixTime() {
   }
 }
 
+// declare all available animations
+void animateIntro(bool showColon);
+void animateTwelveHour(bool showColon);
+void animateTwentyFourHour(bool showColon);
+
+// set function pointer to the active animation
+auto activeAnimation = animateIntro;
+
 void animateIntro(bool showColon)
 {
+  static unsigned long first_call = millis();  // remember the time of the first call
+
   tetris.drawText(1, 21);
+
+  if(millis() > first_call + 20000)   // switch to clock animation 20 seconds after first call
+  {
+    activeAnimation = twelveHourFormat ? animateTwelveHour : animateTwentyFourHour;
+    tetris.scale = 2;
+  }
 }
 
 void animateTwelveHour(bool showColon)
@@ -138,28 +154,6 @@ void animateTwentyFourHour(bool showColon)
   setMatrixTime();
 
   tetris.drawNumbers(2, 26, showColon);
-}
-
-auto activeAnimation = animateIntro;
-
-void animate()
-{
-  static unsigned int colonCounter = 0;
-  unsigned long now = millis();
-
-  if(0 == now % (unsigned long)100)
-  {
-    colonCounter++;
-    unsigned int colonFraction = colonCounter / 5;
-    bool showColon = colonFraction % 2;
-    display.clearDisplay();
-    activeAnimation(showColon);
-  }
-
-  if(0 == now % (unsigned long)2)
-  {
-    display.display(70);
-  }
 }
 
 void drawIntro(int x = 0, int y = 0)
@@ -239,19 +233,24 @@ void setup() {
 
   // Start the Animation Timer
   tetris.setText("B. LOUGH");
-
-  // Wait for the animation to finish
-
-  start_time = millis();
-  while (millis() < start_time + 20000) {
-    animate();
-  }
-
-  activeAnimation = twelveHourFormat ? animateTwelveHour : animateTwentyFourHour;
-
-  tetris.scale = 2;
 }
 
-void loop() {
-  animate();
+void loop()
+{
+  static unsigned int colonCounter = 0;
+  unsigned long now = millis();
+
+  if(0 == now % (unsigned long)100)
+  {
+    colonCounter++;
+    unsigned int colonFraction = colonCounter / 5;
+    bool showColon = colonFraction % 2;
+    display.clearDisplay();
+    activeAnimation(showColon);
+  }
+
+  if(0 == now % (unsigned long)2)
+  {
+    display.display(70);
+  }
 }
