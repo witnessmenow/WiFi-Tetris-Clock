@@ -107,17 +107,14 @@ void setMatrixTime() {
   }
 }
 
-bool animateIntro()
+void animateIntro(bool showColon)
 {
-  return tetris.drawText(1, 21);
+  tetris.drawText(1, 21);
 }
 
-bool animateTwelveHour()
+void animateTwelveHour(bool showColon)
 {
   setMatrixTime();
-
-  static bool showColon = false;
-  showColon = !showColon;
 
   // Place holders for checking are any of the tetris objects
   // currently still animating.
@@ -133,38 +130,36 @@ bool animateTwelveHour()
     tetris3Done = tetris3.drawText(56, 15);
   }
 
-  return tetris1Done && tetris2Done && tetris3Done;
+  tetris1Done && tetris2Done && tetris3Done;
 }
 
-bool animateTwentyFourHour()
+void animateTwentyFourHour(bool showColon)
 {
   setMatrixTime();
 
-  static bool showColon = false;
-  showColon = !showColon;
-
-  return tetris.drawNumbers(2, 26, showColon);
+  tetris.drawNumbers(2, 26, showColon);
 }
 
 auto activeAnimation = animateIntro;
 
-bool animate()
+void animate()
 {
-  static bool done = false;
+  static unsigned int colonCounter = 0;
   unsigned long now = millis();
 
   if(0 == now % (unsigned long)100)
   {
+    colonCounter++;
+    unsigned int colonFraction = colonCounter / 5;
+    bool showColon = colonFraction % 2;
     display.clearDisplay();
-    done = activeAnimation();
+    activeAnimation(showColon);
   }
 
   if(0 == now % (unsigned long)2)
   {
     display.display(70);
   }
-
-  return done;
 }
 
 void drawIntro(int x = 0, int y = 0)
