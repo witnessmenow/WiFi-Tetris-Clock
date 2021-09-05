@@ -98,20 +98,6 @@ void animateTwentyFourHour()
 
 auto activeAnimation = animateIntro;
 
-void drawIntro(int x = 0, int y = 0)
-{
-  tetris.drawChar("W", x, y, tetris.tetrisCYAN);
-  tetris.drawChar("r", x + 5, y, tetris.tetrisMAGENTA);
-  tetris.drawChar("i", x + 11, y, tetris.tetrisYELLOW);
-  tetris.drawChar("t", x + 17, y, tetris.tetrisGREEN);
-  tetris.drawChar("t", x + 22, y, tetris.tetrisBLUE);
-  tetris.drawChar("e", x + 27, y, tetris.tetrisRED);
-  tetris.drawChar("n", x + 32, y, tetris.tetrisWHITE);
-  tetris.drawChar(" ", x + 37, y, tetris.tetrisMAGENTA);
-  tetris.drawChar("b", x + 42, y, tetris.tetrisYELLOW);
-  tetris.drawChar("y", x + 47, y, tetris.tetrisGREEN);
-}
-
 void animate()
 {
   unsigned long now = millis();
@@ -127,8 +113,20 @@ void animate()
   {
     display.display(70);
   }
+}
 
-  yield();
+void drawIntro(int x = 0, int y = 0)
+{
+  tetris.drawChar("W", x, y, tetris.tetrisCYAN);
+  tetris.drawChar("r", x + 5, y, tetris.tetrisMAGENTA);
+  tetris.drawChar("i", x + 11, y, tetris.tetrisYELLOW);
+  tetris.drawChar("t", x + 17, y, tetris.tetrisGREEN);
+  tetris.drawChar("t", x + 22, y, tetris.tetrisBLUE);
+  tetris.drawChar("e", x + 27, y, tetris.tetrisRED);
+  tetris.drawChar("n", x + 32, y, tetris.tetrisWHITE);
+  tetris.drawChar(" ", x + 37, y, tetris.tetrisMAGENTA);
+  tetris.drawChar("b", x + 42, y, tetris.tetrisYELLOW);
+  tetris.drawChar("y", x + 47, y, tetris.tetrisGREEN);
 }
 
 void setup() {
@@ -190,7 +188,6 @@ void setup() {
     {
       display.display(70);
     }
-    yield();
   }
 
   // Start the Animation Timer
@@ -201,16 +198,7 @@ void setup() {
     animate();
   }
 
-  finishedAnimating = false;
-
-  if(twelveHourFormat)
-  {
-    activeAnimation = animateTwelveHour;
-  }
-  else
-  {
-    activeAnimation = animateTwentyFourHour;
-  }
+  activeAnimation = twelveHourFormat ? animateTwelveHour : animateTwentyFourHour;
 
   tetris.scale = 2;
 }
