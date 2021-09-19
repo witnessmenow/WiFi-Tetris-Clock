@@ -124,7 +124,7 @@ bool animateIntro(bool showColon)
 {
   static unsigned long first_call = millis();  // remember the time of the first call
 
-  bool done = tetris.drawText(1, 21);
+  tetris.drawText(1, 21);
 
   if(millis() > first_call + 20000)   // switch to clock animation 20 seconds after first call
   {
@@ -132,11 +132,13 @@ bool animateIntro(bool showColon)
     tetris.scale = 2;
   }
 
-  return done;
+  return false;
 }
 
 bool animateTwelveHour(bool showColon)
 {
+  setMatrixTime();
+
   // Place holders for checking are any of the tetris objects
   // currently still animating.
   bool tetris1Done = false;
@@ -156,6 +158,8 @@ bool animateTwelveHour(bool showColon)
 
 bool animateTwentyFourHour(bool showColon)
 {
+  setMatrixTime();
+
   return tetris.drawNumbers(2, 26, showColon);
 }
 
@@ -222,7 +226,7 @@ void setup() {
   Serial.print(F("Time in your set timezone:         "));
   Serial.println(myTZ.dateTime());
 
-   //"Powered By"
+  // "Powered By"
   drawIntro(6, 12);
   unsigned long now = millis();
   unsigned long start_time = now;
@@ -234,7 +238,6 @@ void setup() {
     }
   }
 
-  // Start the Animation Timer
   tetris.setText("B. LOUGH");
 }
 
@@ -255,8 +258,6 @@ void loop()
 
   if(0 == now % (unsigned long)100)
   {
-    bool timeChanged = setMatrixTime();
-
     bool colonChanged = false;
     if(colonVisible != showColon())
     {
@@ -264,7 +265,7 @@ void loop()
       colonChanged = true;
     }
 
-    if(!animationDone || colonChanged || timeChanged)
+    if(!animationDone || colonChanged)
     {
       display.clearDisplay();
       animationDone = activeAnimation(colonVisible);
