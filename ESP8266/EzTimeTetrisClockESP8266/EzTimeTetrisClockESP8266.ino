@@ -64,9 +64,11 @@ TetrisMatrixDraw tetris3(display); // The "P" or "A" of AM/PM
 
 Timezone myTZ;
 
-void setMatrixTime() {
+bool setMatrixTime() {
   static String lastDisplayedTime;
   static String lastDisplayedAmPm;
+
+  bool timeChanged = false;
 
   String timeString;
   String AmPmString;
@@ -104,34 +106,37 @@ void setMatrixTime() {
     Serial.println(timeString);
     lastDisplayedTime = timeString;
     tetris.setTime(timeString, forceRefresh);
+    timeChanged = true;
   }
+
+  return timeChanged;
 }
 
 // declare all available animations
-void animateIntro(bool showColon);
-void animateTwelveHour(bool showColon);
-void animateTwentyFourHour(bool showColon);
+bool animateIntro(bool showColon);
+bool animateTwelveHour(bool showColon);
+bool animateTwentyFourHour(bool showColon);
 
 // set function pointer to the active animation
 auto activeAnimation = animateIntro;
 
-void animateIntro(bool showColon)
+bool animateIntro(bool showColon)
 {
   static unsigned long first_call = millis();  // remember the time of the first call
 
-  tetris.drawText(1, 21);
+  bool done = tetris.drawText(1, 21);
 
   if(millis() > first_call + 20000)   // switch to clock animation 20 seconds after first call
   {
     activeAnimation = twelveHourFormat ? animateTwelveHour : animateTwentyFourHour;
     tetris.scale = 2;
   }
+
+  return done;
 }
 
-void animateTwelveHour(bool showColon)
+bool animateTwelveHour(bool showColon)
 {
-  setMatrixTime();
-
   // Place holders for checking are any of the tetris objects
   // currently still animating.
   bool tetris1Done = false;
@@ -146,14 +151,12 @@ void animateTwelveHour(bool showColon)
     tetris3Done = tetris3.drawText(56, 15);
   }
 
-  tetris1Done && tetris2Done && tetris3Done;
+  return tetris1Done && tetris2Done && tetris3Done;
 }
 
-void animateTwentyFourHour(bool showColon)
+bool animateTwentyFourHour(bool showColon)
 {
-  setMatrixTime();
-
-  tetris.drawNumbers(2, 26, showColon);
+  return tetris.drawNumbers(2, 26, showColon);
 }
 
 void drawIntro(int x = 0, int y = 0)
@@ -235,18 +238,37 @@ void setup() {
   tetris.setText("B. LOUGH");
 }
 
-void loop()
+static bool showColon()
 {
   static unsigned int colonCounter = 0;
+  colonCounter++;
+  unsigned int colonFraction = colonCounter / 5;
+  return !!(colonFraction % 2);
+}
+
+void loop()
+{
+  static bool animationDone = false;
+  static bool colonVisible = true;
+
   unsigned long now = millis();
 
   if(0 == now % (unsigned long)100)
   {
-    colonCounter++;
-    unsigned int colonFraction = colonCounter / 5;
-    bool showColon = colonFraction % 2;
-    display.clearDisplay();
-    activeAnimation(showColon);
+    bool timeChanged = setMatrixTime();
+
+    bool colonChanged = false;
+    if(colonVisible != showColon())
+    {
+      colonVisible = !colonVisible;
+      colonChanged = true;
+    }
+
+    if(!animationDone || colonChanged || timeChanged)
+    {
+      display.clearDisplay();
+      animationDone = activeAnimation(colonVisible);
+    }
   }
 
   if(0 == now % (unsigned long)2)
